@@ -1,0 +1,215 @@
+// Main Activity code
+
+package com.example.tippapp
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import com.example.tippapp.databinding.ActivityMainBinding
+import kotlin.math.roundToInt
+
+class MainActivity : AppCompatActivity() {
+   private lateinit var binding: ActivityMainBinding
+   override fun onCreate(savedInstanceState: Bundle?) {
+
+       binding = ActivityMainBinding.inflate(layoutInflater)
+
+       super.onCreate(savedInstanceState)
+       setContentView(binding.root)
+
+       binding.btnCalcular.setOnClickListener { calcularGorjeta() }
+
+   }
+
+   private fun calcularGorjeta() {
+       var valor = binding.txteValor.text.toString().toDouble()
+       var rgb = binding.radioGroup.checkedRadioButtonId
+
+       var porcent = when (rgb) {
+           R.id.Bom -> 0.20
+           R.id.otimo -> 0.30
+           else -> 0.15
+       }
+       var round = binding.switch1.isChecked
+       var gorjeta = valor * porcent
+
+       if (!round) {
+           binding.txtResult.text = "R$$gorjeta"
+       }else{
+           binding.txtResult.text = "R$${gorjeta.roundToInt()}.00"
+   }
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+// layout code
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:app="http://schemas.android.com/apk/res-auto"
+   xmlns:tools="http://schemas.android.com/tools"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   tools:context=".MainActivity">
+
+   <TextView
+       android:id="@+id/textView2"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/app_gorjeta"
+       android:textColor="#43A047"
+       android:textSize="32sp"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.497"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintVertical_bias="0.055" />
+
+   <TextView
+       android:id="@+id/textView"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="108dp"
+       android:text="@string/o_qu_o_bom_foi_o_servi_o"
+       android:textColor="#757575"
+       android:textSize="18sp"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent" />
+
+   <EditText
+       android:id="@+id/txteValor"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="184dp"
+       android:ems="10"
+       android:hint="@string/qual_o_valor_do_servi_o"
+       android:inputType="textPersonName"
+       android:minHeight="48dp"
+       android:textColorHint="#757575"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.507"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       android:importantForAutofill="no" />
+
+   <RadioGroup
+       android:id="@+id/radioGroup"
+       android:layout_width="182dp"
+       android:layout_height="152dp"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintVertical_bias="0.43">
+
+       <RadioButton
+           android:id="@+id/otimo"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="@string/timo" />
+
+       <RadioButton
+           android:id="@+id/Bom"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="@string/bom" />
+
+       <RadioButton
+           android:id="@+id/regular"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:minHeight="48dp"
+           android:text="@string/regular" />
+   </RadioGroup>
+
+   <Switch
+       android:id="@+id/switch1"
+       android:layout_width="220dp"
+       android:layout_height="50dp"
+       android:layout_marginBottom="244dp"
+       android:text="@string/arredondar"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.498"
+       app:layout_constraintStart_toStartOf="parent" />
+
+   <Button
+       android:id="@+id/btnCalcular"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginBottom="156dp"
+       android:text="@string/calcular_a_gorjeta"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.498"
+       app:layout_constraintStart_toStartOf="parent" />
+
+   <TextView
+       android:id="@+id/txtResult"
+       android:layout_width="202dp"
+       android:layout_height="72dp"
+       android:layout_marginBottom="48dp"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.488"
+       app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+// build.gradle code
+
+
+plugins {
+   id 'com.android.application'
+   id 'org.jetbrains.kotlin.android'
+}
+
+android {
+   compileSdk 32
+
+   viewBinding{
+       enabled = true
+   }
+
+   defaultConfig {
+       applicationId "com.example.tippapp"
+       minSdk 23
+       targetSdk 32
+       versionCode 1
+       versionName "1.0"
+
+       testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+   }
+
+   buildTypes {
+       release {
+           minifyEnabled false
+           proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+       }
+   }
+   compileOptions {
+       sourceCompatibility JavaVersion.VERSION_1_8
+       targetCompatibility JavaVersion.VERSION_1_8
+   }
+   kotlinOptions {
+       jvmTarget = '1.8'
+   }
+}
+
+dependencies {
+
+   implementation 'androidx.core:core-ktx:1.7.0'
+   implementation 'androidx.appcompat:appcompat:1.6.0'
+   implementation 'com.google.android.material:material:1.7.0'
+   implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+   testImplementation 'junit:junit:4.13.2'
+   androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+   androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
+
+
+
